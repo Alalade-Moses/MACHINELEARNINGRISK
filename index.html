@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DiabetesRisk AI – Hospital Readmission Predictor</title>
+  <meta name="description" content="AI-powered tool to predict 30-day hospital readmission risk in diabetic patients using machine learning." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- PARTICLE CANVAS -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <div class="nav-logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="16" r="15" stroke="url(#lg1)" stroke-width="2"/>
+            <path d="M10 16h4v-4h4v4h4" stroke="url(#lg2)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="lg1" x1="0" y1="0" x2="32" y2="32">
+                <stop stop-color="#00d4ff"/><stop offset="1" stop-color="#7b2ff7"/>
+              </linearGradient>
+              <linearGradient id="lg2" x1="0" y1="0" x2="32" y2="32">
+                <stop stop-color="#00d4ff"/><stop offset="1" stop-color="#7b2ff7"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span>DiabetesRisk <span class="logo-ai">AI</span></span>
+      </div>
+      <div class="nav-links">
+        <a href="#predictor" class="nav-link">Predictor</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#metrics" class="nav-link">Model Metrics</a>
+      </div>
+      <div class="nav-badge">
+        <span class="pulse-dot"></span>
+        Model Active
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="hero">
+    <div class="hero-bg-glow glow-1"></div>
+    <div class="hero-bg-glow glow-2"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-tag">🧠 ML-Powered Healthcare</span>
+      </div>
+      <h1 class="hero-title">
+        Predict Hospital<br/>
+        <span class="gradient-text">Readmission Risk</span>
+      </h1>
+      <p class="hero-subtitle">
+        Advanced machine learning analysis for diabetic patients.<br/>
+        Get instant 30-day readmission risk prediction with AI.
+      </p>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-value">130</div>
+          <div class="stat-label">US Hospitals</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-card">
+          <div class="stat-value">101K+</div>
+          <div class="stat-label">Patient Records</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-card">
+          <div class="stat-value">1999–2008</div>
+          <div class="stat-label">Clinical Data</div>
+        </div>
+      </div>
+      <a href="#predictor" class="btn-primary hero-cta">
+        Start Prediction
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+    <div class="hero-visual">
+      <div class="ecg-container">
+        <svg class="ecg-svg" viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ecgGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:0"/>
+              <stop offset="30%" style="stop-color:#00d4ff;stop-opacity:1"/>
+              <stop offset="70%" style="stop-color:#7b2ff7;stop-opacity:1"/>
+              <stop offset="100%" style="stop-color:#7b2ff7;stop-opacity:0"/>
+            </linearGradient>
+          </defs>
+          <path class="ecg-path" d="M0,60 L60,60 L75,60 L80,40 L85,90 L90,10 L95,100 L100,60 L110,60 L170,60 L175,60 L180,40 L185,90 L190,10 L195,100 L200,60 L210,60 L270,60 L275,60 L280,40 L285,90 L290,10 L295,100 L300,60 L310,60 L370,60 L375,60 L380,40 L385,90 L390,10 L395,100 L400,60 L410,60 L500,60"
+            fill="none" stroke="url(#ecgGrad)" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="floating-cards">
+        <div class="float-card fc-1">
+          <div class="fc-icon">🩸</div>
+          <div class="fc-text">
+            <span class="fc-label">Blood Glucose</span>
+            <span class="fc-val">Analyzed</span>
+          </div>
+        </div>
+        <div class="float-card fc-2">
+          <div class="fc-icon">💊</div>
+          <div class="fc-text">
+            <span class="fc-label">Medications</span>
+            <span class="fc-val">23 variables</span>
+          </div>
+        </div>
+        <div class="float-card fc-3">
+          <div class="fc-icon">🏥</div>
+          <div class="fc-text">
+            <span class="fc-label">Admission Type</span>
+            <span class="fc-val">Multi-class</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREDICTOR SECTION -->
+  <section class="predictor-section" id="predictor">
+    <div class="section-header">
+      <span class="section-tag">AI Predictor</span>
+      <h2>Patient Risk Assessment</h2>
+      <p>Fill in the patient data below to generate a readmission risk prediction</p>
+    </div>
+
+    <div class="predictor-layout">
+      <!-- FORM -->
+      <div class="form-panel" id="form-panel">
+        <form id="prediction-form">
+
+          <!-- STEP 1 -->
+          <div class="form-step active" id="step-1">
+            <div class="step-header">
+              <div class="step-badge">Step 1 of 3</div>
+              <h3>👤 Patient Demographics</h3>
+            </div>
+            <div class="form-grid">
+
+              <div class="form-group">
+                <label for="age">Age Group</label>
+                <div class="select-wrapper">
+                  <select id="age" name="age" required>
+                    <option value="">Select age range</option>
+                    <option value="[0-10)">[0-10)</option>
+                    <option value="[10-20)">[10-20)</option>
+                    <option value="[20-30)">[20-30)</option>
+                    <option value="[30-40)">[30-40)</option>
+                    <option value="[40-50)">[40-50)</option>
+                    <option value="[50-60)" selected>[50-60)</option>
+                    <option value="[60-70)">[60-70)</option>
+                    <option value="[70-80)">[70-80)</option>
+                    <option value="[80-90)">[80-90)</option>
+                    <option value="[90-100)">[90-100)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="gender">Gender</label>
+                <div class="select-wrapper">
+                  <select id="gender" name="gender" required>
+                    <option value="">Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="race">Race / Ethnicity</label>
+                <div class="select-wrapper">
+                  <select id="race" name="race">
+                    <option value="Caucasian">Caucasian</option>
+                    <option value="AfricanAmerican">African American</option>
+                    <option value="Hispanic">Hispanic</option>
+                    <option value="Asian">Asian</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="admission_type">Admission Type</label>
+                <div class="select-wrapper">
+                  <select id="admission_type" name="admission_type" required>
+                    <option value="">Select type</option>
+                    <option value="1">Emergency</option>
+                    <option value="2">Urgent</option>
+                    <option value="3">Elective</option>
+                    <option value="4">Newborn</option>
+                    <option value="5">Not Available</option>
+                    <option value="6">NULL</option>
+                    <option value="7">Trauma Center</option>
+                    <option value="8">Not Mapped</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="discharge_disposition">Discharge Disposition</label>
+                <div class="select-wrapper">
+                  <select id="discharge_disposition" name="discharge_disposition">
+                    <option value="1">Discharged to Home</option>
+                    <option value="2">Transferred to Short-term Hospital</option>
+                    <option value="3">Transferred – Skilled Nursing Facility</option>
+                    <option value="6">Discharged – Home Health Service</option>
+                    <option value="11">Expired</option>
+                    <option value="13">Hospice / Medical Facility</option>
+                    <option value="18">NULL</option>
+                    <option value="25">Not Mapped</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="admission_source">Admission Source</label>
+                <div class="select-wrapper">
+                  <select id="admission_source" name="admission_source">
+                    <option value="1">Physician Referral</option>
+                    <option value="2">Clinic Referral</option>
+                    <option value="3">HMO Referral</option>
+                    <option value="4">Transfer from Hospital</option>
+                    <option value="7">Emergency Room</option>
+                    <option value="9">Not Available</option>
+                    <option value="17">NULL</option>
+                    <option value="20">Not Mapped</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="step-nav">
+              <button type="button" class="btn-next" onclick="nextStep(2)">Next: Clinical Data →</button>
+            </div>
+          </div>
+
+          <!-- STEP 2 -->
+          <div class="form-step" id="step-2">
+            <div class="step-header">
+              <div class="step-badge">Step 2 of 3</div>
+              <h3>🏥 Clinical Information</h3>
+            </div>
+            <div class="form-grid">
+
+              <div class="form-group">
+                <label for="time_in_hospital">Days in Hospital</label>
+                <div class="slider-group">
+                  <input type="range" id="time_in_hospital" name="time_in_hospital" min="1" max="14" value="4" class="range-input" oninput="updateSlider(this,'days-val')"/>
+                  <span class="slider-val" id="days-val">4 days</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="num_lab_procedures">Number of Lab Procedures</label>
+                <div class="slider-group">
+                  <input type="range" id="num_lab_procedures" name="num_lab_procedures" min="1" max="132" value="43" class="range-input" oninput="updateSlider(this,'lab-val')"/>
+                  <span class="slider-val" id="lab-val">43</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="num_procedures">Number of Procedures</label>
+                <div class="slider-group">
+                  <input type="range" id="num_procedures" name="num_procedures" min="0" max="6" value="1" class="range-input" oninput="updateSlider(this,'proc-val')"/>
+                  <span class="slider-val" id="proc-val">1</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="num_medications">Number of Medications</label>
+                <div class="slider-group">
+                  <input type="range" id="num_medications" name="num_medications" min="1" max="81" value="16" class="range-input" oninput="updateSlider(this,'meds-val')"/>
+                  <span class="slider-val" id="meds-val">16</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="number_outpatient">Outpatient Visits (past year)</label>
+                <div class="slider-group">
+                  <input type="range" id="number_outpatient" name="number_outpatient" min="0" max="42" value="0" class="range-input" oninput="updateSlider(this,'out-val')"/>
+                  <span class="slider-val" id="out-val">0</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="number_emergency">Emergency Visits (past year)</label>
+                <div class="slider-group">
+                  <input type="range" id="number_emergency" name="number_emergency" min="0" max="76" value="0" class="range-input" oninput="updateSlider(this,'emg-val')"/>
+                  <span class="slider-val" id="emg-val">0</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="number_inpatient">Inpatient Visits (past year)</label>
+                <div class="slider-group">
+                  <input type="range" id="number_inpatient" name="number_inpatient" min="0" max="21" value="0" class="range-input" oninput="updateSlider(this,'inp-val')"/>
+                  <span class="slider-val" id="inp-val">0</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="number_diagnoses">Number of Diagnoses</label>
+                <div class="slider-group">
+                  <input type="range" id="number_diagnoses" name="number_diagnoses" min="1" max="16" value="7" class="range-input" oninput="updateSlider(this,'diag-val')"/>
+                  <span class="slider-val" id="diag-val">7</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="diag_1">Primary Diagnosis (ICD-9)</label>
+                <div class="select-wrapper">
+                  <select id="diag_1" name="diag_1">
+                    <option value="diabetes">Diabetes (250.xx)</option>
+                    <option value="circulatory">Circulatory (390-459)</option>
+                    <option value="respiratory">Respiratory (460-519)</option>
+                    <option value="digestive">Digestive (520-579)</option>
+                    <option value="injury">Injury (800-999)</option>
+                    <option value="musculoskeletal">Musculoskeletal (710-739)</option>
+                    <option value="genitourinary">Genitourinary (580-629)</option>
+                    <option value="neoplasms">Neoplasms (140-239)</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="max_glu_serum">Max Glucose Serum Test</label>
+                <div class="select-wrapper">
+                  <select id="max_glu_serum" name="max_glu_serum">
+                    <option value="None">None / Not Tested</option>
+                    <option value="Norm">Normal</option>
+                    <option value=">200">&gt;200 mg/dL</option>
+                    <option value=">300">&gt;300 mg/dL</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="A1Cresult">HbA1c Result</label>
+                <div class="select-wrapper">
+                  <select id="A1Cresult" name="A1Cresult">
+                    <option value="None">None / Not Tested</option>
+                    <option value="Norm">Normal (&lt;7%)</option>
+                    <option value=">7">&gt;7%</option>
+                    <option value=">8">&gt;8%</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+            <div class="step-nav">
+              <button type="button" class="btn-prev" onclick="nextStep(1)">← Back</button>
+              <button type="button" class="btn-next" onclick="nextStep(3)">Next: Medications →</button>
+            </div>
+          </div>
+
+          <!-- STEP 3 -->
+          <div class="form-step" id="step-3">
+            <div class="step-header">
+              <div class="step-badge">Step 3 of 3</div>
+              <h3>💊 Medication & Treatment</h3>
+            </div>
+
+            <div class="med-grid">
+              <div class="med-item">
+                <label>Metformin</label>
+                <div class="toggle-group" id="tg-metformin">
+                  <button type="button" class="toggle-btn active" data-val="No" onclick="selectToggle('tg-metformin',this,'metformin')">No</button>
+                  <button type="button" class="toggle-btn" data-val="Steady" onclick="selectToggle('tg-metformin',this,'metformin')">Steady</button>
+                  <button type="button" class="toggle-btn" data-val="Up" onclick="selectToggle('tg-metformin',this,'metformin')">Up</button>
+                  <button type="button" class="toggle-btn" data-val="Down" onclick="selectToggle('tg-metformin',this,'metformin')">Down</button>
+                </div>
+                <input type="hidden" name="metformin" id="metformin" value="No"/>
+              </div>
+
+              <div class="med-item">
+                <label>Insulin</label>
+                <div class="toggle-group" id="tg-insulin">
+                  <button type="button" class="toggle-btn active" data-val="No" onclick="selectToggle('tg-insulin',this,'insulin')">No</button>
+                  <button type="button" class="toggle-btn" data-val="Steady" onclick="selectToggle('tg-insulin',this,'insulin')">Steady</button>
+                  <button type="button" class="toggle-btn" data-val="Up" onclick="selectToggle('tg-insulin',this,'insulin')">Up</button>
+                  <button type="button" class="toggle-btn" data-val="Down" onclick="selectToggle('tg-insulin',this,'insulin')">Down</button>
+                </div>
+                <input type="hidden" name="insulin" id="insulin" value="No"/>
+              </div>
+
+              <div class="med-item">
+                <label>Glipizide</label>
+                <div class="toggle-group" id="tg-glipizide">
+                  <button type="button" class="toggle-btn active" data-val="No" onclick="selectToggle('tg-glipizide',this,'glipizide')">No</button>
+                  <button type="button" class="toggle-btn" data-val="Steady" onclick="selectToggle('tg-glipizide',this,'glipizide')">Steady</button>
+                  <button type="button" class="toggle-btn" data-val="Up" onclick="selectToggle('tg-glipizide',this,'glipizide')">Up</button>
+                  <button type="button" class="toggle-btn" data-val="Down" onclick="selectToggle('tg-glipizide',this,'glipizide')">Down</button>
+                </div>
+                <input type="hidden" name="glipizide" id="glipizide" value="No"/>
+              </div>
+
+              <div class="med-item">
+                <label>Glyburide</label>
+                <div class="toggle-group" id="tg-glyburide">
+                  <button type="button" class="toggle-btn active" data-val="No" onclick="selectToggle('tg-glyburide',this,'glyburide')">No</button>
+                  <button type="button" class="toggle-btn" data-val="Steady" onclick="selectToggle('tg-glyburide',this,'glyburide')">Steady</button>
+                  <button type="button" class="toggle-btn" data-val="Up" onclick="selectToggle('tg-glyburide',this,'glyburide')">Up</button>
+                  <button type="button" class="toggle-btn" data-val="Down" onclick="selectToggle('tg-glyburide',this,'glyburide')">Down</button>
+                </div>
+                <input type="hidden" name="glyburide" id="glyburide" value="No"/>
+              </div>
+
+              <div class="med-item">
+                <label>Pioglitazone</label>
+                <div class="toggle-group" id="tg-pioglitazone">
+                  <button type="button" class="toggle-btn active" data-val="No" onclick="selectToggle('tg-pioglitazone',this,'pioglitazone')">No</button>
+                  <button type="button" class="toggle-btn" data-val="Steady" onclick="selectToggle('tg-pioglitazone',this,'pioglitazone')">Steady</button>
+                  <button type="button" class="toggle-btn" data-val="Up" onclick="selectToggle('tg-pioglitazone',this,'pioglitazone')">Up</button>
+                  <button type="button" class="toggle-btn" data-val="Down" onclick="selectToggle('tg-pioglitazone',this,'pioglitazone')">Down</button>
+                </div>
+                <input type="hidden" name="pioglitazone" id="pioglitazone" value="No"/>
+              </div>
+
+              <div class="med-item">
+                <label>Rosiglitazone</label>
+                <div class="toggle-group" id="tg-rosiglitazone">
+                  <button type="button" class="toggle-btn active" data-val="No" onclick="selectToggle('tg-rosiglitazone',this,'rosiglitazone')">No</button>
+                  <button type="button" class="toggle-btn" data-val="Steady" onclick="selectToggle('tg-rosiglitazone',this,'rosiglitazone')">Steady</button>
+                  <button type="button" class="toggle-btn" data-val="Up" onclick="selectToggle('tg-rosiglitazone',this,'rosiglitazone')">Up</button>
+                  <button type="button" class="toggle-btn" data-val="Down" onclick="selectToggle('tg-rosiglitazone',this,'rosiglitazone')">Down</button>
+                </div>
+                <input type="hidden" name="rosiglitazone" id="rosiglitazone" value="No"/>
+              </div>
+            </div>
+
+            <div class="checkbox-row">
+              <label class="checkbox-label">
+                <input type="checkbox" id="change" name="change" value="Ch" />
+                <span class="checkbox-custom"></span>
+                Change in Diabetic Medications
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" id="diabetesMed" name="diabetesMed" value="Yes" checked />
+                <span class="checkbox-custom"></span>
+                On Diabetes Medications
+              </label>
+            </div>
+
+            <div class="step-nav">
+              <button type="button" class="btn-prev" onclick="nextStep(2)">← Back</button>
+              <button type="submit" class="btn-predict" id="predict-btn">
+                <span class="btn-text">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
+                  </svg>
+                  Run AI Prediction
+                </span>
+              </button>
+            </div>
+          </div>
+
+        </form>
+
+        <!-- STEP PROGRESS -->
+        <div class="step-progress">
+          <div class="progress-track">
+            <div class="progress-fill" id="progress-fill" style="width: 33%"></div>
+          </div>
+          <div class="step-dots">
+            <div class="step-dot active" id="dot-1" onclick="nextStep(1)">1</div>
+            <div class="step-dot" id="dot-2" onclick="nextStep(2)">2</div>
+            <div class="step-dot" id="dot-3" onclick="nextStep(3)">3</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESULT PANEL -->
+      <div class="result-panel" id="result-panel">
+        <div class="result-idle" id="result-idle">
+          <div class="idle-icon">🔮</div>
+          <h3>Awaiting Patient Data</h3>
+          <p>Complete the 3-step form and click <strong>Run AI Prediction</strong> to receive an instant readmission risk assessment.</p>
+          <div class="feature-list">
+            <div class="feature-item">✅ 30-Day Readmission Risk Score</div>
+            <div class="feature-item">✅ Risk Level Classification</div>
+            <div class="feature-item">✅ Key Contributing Factors</div>
+            <div class="feature-item">✅ Clinical Recommendations</div>
+          </div>
+        </div>
+
+        <div class="result-loading" id="result-loading" style="display:none">
+          <div class="loading-ring"></div>
+          <p>Analyzing patient profile…</p>
+          <div class="loading-steps">
+            <div class="ls-item" id="ls1">🔎 Processing demographics…</div>
+            <div class="ls-item" id="ls2">🧬 Analyzing clinical data…</div>
+            <div class="ls-item" id="ls3">💊 Evaluating medications…</div>
+            <div class="ls-item" id="ls4">🤖 Running ML model…</div>
+          </div>
+        </div>
+
+        <div class="result-output" id="result-output" style="display:none">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section class="about-section" id="about">
+    <div class="about-bg-glow"></div>
+    <div class="section-header">
+      <span class="section-tag">About the Model</span>
+      <h2>How It Works</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="about-icon">📊</div>
+        <h3>Data Source</h3>
+        <p>Based on the <strong>Diabetes 130-US hospitals (1999–2008)</strong> dataset — over 101,766 real patient records from 130 US hospitals.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-icon">🧠</div>
+        <h3>Machine Learning</h3>
+        <p>Trained with <strong>classification algorithms</strong> including Random Forest, Gradient Boosting, and Logistic Regression with cross-validation.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-icon">📈</div>
+        <h3>Feature Engineering</h3>
+        <p>Uses <strong>50+ clinical features</strong> covering demographics, diagnoses, medications, and visit history for high-accuracy predictions.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-icon">⚕️</div>
+        <h3>Clinical Focus</h3>
+        <p>Targets <strong>30-day readmission</strong> — the key metric used by CMS to evaluate hospital quality and apply financial penalties.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- METRICS SECTION -->
+  <section class="metrics-section" id="metrics">
+    <div class="section-header">
+      <span class="section-tag">Model Performance</span>
+      <h2>Evaluation Metrics</h2>
+      <p>Performance on the Diabetes 130-US Hospitals dataset</p>
+    </div>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-ring" data-pct="76">
+          <svg viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="10"/>
+            <circle cx="60" cy="60" r="50" fill="none" stroke="url(#mg1)" stroke-width="10"
+              stroke-dasharray="314" stroke-dashoffset="75" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+            <defs>
+              <linearGradient id="mg1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00d4ff"/>
+                <stop offset="100%" stop-color="#7b2ff7"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="metric-pct">76%</div>
+        </div>
+        <div class="metric-name">Accuracy</div>
+        <div class="metric-desc">Overall correct predictions</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-ring" data-pct="72">
+          <svg viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="10"/>
+            <circle cx="60" cy="60" r="50" fill="none" stroke="url(#mg2)" stroke-width="10"
+              stroke-dasharray="314" stroke-dashoffset="88" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+            <defs>
+              <linearGradient id="mg2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00ffb3"/>
+                <stop offset="100%" stop-color="#00d4ff"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="metric-pct">72%</div>
+        </div>
+        <div class="metric-name">F1-Score</div>
+        <div class="metric-desc">Balanced precision-recall</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-ring" data-pct="81">
+          <svg viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="10"/>
+            <circle cx="60" cy="60" r="50" fill="none" stroke="url(#mg3)" stroke-width="10"
+              stroke-dasharray="314" stroke-dashoffset="60" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+            <defs>
+              <linearGradient id="mg3" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff6b6b"/>
+                <stop offset="100%" stop-color="#feca57"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="metric-pct">81%</div>
+        </div>
+        <div class="metric-name">AUC-ROC</div>
+        <div class="metric-desc">Discrimination ability</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-ring" data-pct="68">
+          <svg viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="10"/>
+            <circle cx="60" cy="60" r="50" fill="none" stroke="url(#mg4)" stroke-width="10"
+              stroke-dasharray="314" stroke-dashoffset="100" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+            <defs>
+              <linearGradient id="mg4" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#a855f7"/>
+                <stop offset="100%" stop-color="#ec4899"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="metric-pct">68%</div>
+        </div>
+        <div class="metric-name">Recall</div>
+        <div class="metric-desc">Readmission detection rate</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <div class="logo-icon small">
+          <svg viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="15" stroke="url(#fgl)" stroke-width="2"/>
+            <path d="M10 16h4v-4h4v4h4" stroke="url(#fgl2)" stroke-width="2.2" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="fgl" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#00d4ff"/><stop offset="1" stop-color="#7b2ff7"/></linearGradient>
+              <linearGradient id="fgl2" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#00d4ff"/><stop offset="1" stop-color="#7b2ff7"/></linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span>DiabetesRisk AI</span>
+      </div>
+      <p class="footer-disclaimer">
+        ⚠️ <strong>Medical Disclaimer:</strong> This tool is intended for educational and research purposes only. 
+        Predictions are based on statistical models and should not replace professional medical judgment.
+      </p>
+      <p class="footer-credit">Built with ❤️ using the Diabetes 130-US Hospitals Dataset · Research Project</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
